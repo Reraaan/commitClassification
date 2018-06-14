@@ -34,7 +34,43 @@ for (i in 1:nrow(mydata)){
 xlsx::write.xlsx(mydata, "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/new-labeled-with-maintenance-activities.xlsx")
 
 
+### plot the 3 types of maintenance
+plot(as.numeric(mydata[1,5]), as.numeric(mydata[1,6]), xlim=range(0:500), ylim=range(0:500))
+par(new=TRUE)
 
+for (i in 2:nrow(mydata)){
+    if(mydata[[i,4]] == "p")
+        color="blue"
+    else if(mydata[[i,4]] == "c")
+        color = "green"
+    else
+        color = "red"
+    plot(as.numeric(mydata[i,5]), as.numeric(mydata[i,6]), xlim=range(0:500), ylim=range(0:500), ann=FALSE, xaxt='n', yaxt='n', col = color)
+    par(new=TRUE)
+    
+}
 
+### check correlation between added lines and deleted lines for each types of maintenance
+vecPadd <- numeric()
+vecPdel <- numeric()
+vecCadd <- numeric()
+vecCdel <- numeric()
+vecAadd <- numeric()
+vecAdel <- numeric()
+
+for (i in 1:nrow(mydata)){
+    if(mydata[[i,4]]=="p"){
+        vecPadd <- append(vecPadd, as.numeric(mydata[[i,5]]))
+        vecPdel <- append(vecPdel, as.numeric(mydata[[i,6]]))
+    }
+    if(mydata[[i,4]]=="c"){
+        vecCadd <- append(vecCadd, as.numeric(mydata[[i,5]]))
+        vecCdel <- append(vecCdel, as.numeric(mydata[[i,6]]))
+    }
+    if(mydata[[i,4]]=="a"){
+        vecAadd <- append(vecAadd, as.numeric(mydata[[i,5]]))
+        vecAdel <- append(vecAdel, as.numeric(mydata[[i,6]]))
+    }
+}
 
 
