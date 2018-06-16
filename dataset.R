@@ -3,8 +3,9 @@ library("plyr")
 library("readxl")
 library(tibble)
 
-pathRead <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/1151-commits-labeled-with-maintenance-activities.csv"
-mydata <- read.csv2(pathRead, stringsAsFactors = FALSE)
+pathRead <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/notebook/1151-labeled-commits-raw.csv"
+#mydata <- read.csv2(pathRead, stringsAsFactors = FALSE)
+mydata <- read.csv(pathRead, quote = "", header = TRUE, sep = "#", stringsAsFactors = FALSE)
 mydata <- add_column(mydata, additions = array("", dim=nrow(mydata)), .after = 4)
 mydata <- add_column(mydata, deletions = array("", dim=nrow(mydata)), .after = 5)
 
@@ -24,14 +25,14 @@ for (i in 1:nrow(mydata)){
            "camel" = {fullname = "apache/camel"},
            "spring-framework" = {fullname = "spring-projects/spring-framework"} )
        
-    commits <- fromJSON(paste0("https://api.github.com/repos/", fullname,"/commits/",commitSHA,"?access_token=2cd4f1a3761d27c6051b1d991d7d861649c6705b"))
+    commits <- fromJSON(paste0("https://api.github.com/repos/", fullname,"/commits/",commitSHA,"?access_token=e785ba8c5eb78b241528a5e7c0199b9e8c40a72b"))
     addition <- commits$stats$additions
     deletion <- commits$stats$deletions
     mydata[[i,5]] <- addition
     mydata[[i,6]] <- deletion
 
 }
-xlsx::write.xlsx(mydata, "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/new-labeled-with-maintenance-activities.xlsx")
+xlsx::write.xlsx(mydata, "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/notebook/1151-labeled-commits.xlsx")
 
 
 ### plot the 3 types of maintenance

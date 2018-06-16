@@ -14,15 +14,15 @@ library(klaR)
 library("readxl")
 
 pathRead <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/notebook/new-labeled-with-maintenance-activities.xlsx"
-pathRead2 <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/notebook/1151-labeled-commits.csv"
+pathRead2 <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas 2018.1/Machine Learning/Projeto Final/notebook/1151-labeled-commits.xlsx"
 
-mydata2 <- read.csv(pathRead2, quote = "", header = TRUE, sep = "#")
+#mydata2 <- read.csv(pathRead2, quote = "", header = TRUE, sep = "#")
 
-mydata <- readxl::read_xlsx(pathRead)
+mydata2 <- readxl::read_xlsx(pathRead2)
 
 
 mydata2<- mydata2[-(1:3)]
-mydata <- mydata[complete.cases(mydata),]
+#mydata <- mydata[complete.cases(mydata),]
 #mydata[1:nrow(mydata),2:ncol(mydata)] <- as.numeric(as.matrix(mydata[1:nrow(mydata),2:ncol(mydata)]))
 mydata2 <- as.data.frame(mydata2)
 mydata2[,-1] <- as.data.frame(sapply(mydata2[,-1], as.numeric)) #<- sapply is here
@@ -37,11 +37,19 @@ ControlParamteres <- trainControl(method = "repeatedcv",
                                   repeats=5,
                                   savePredictions = TRUE,
                                   classProbs = TRUE)
+# best parameters
+# parametersGrid <-  expand.grid(eta = 0.1, 
+#                                colsample_bytree=c(0.5,0.7),
+#                                max_depth=c(20),
+#                                nrounds=200,
+#                                gamma=1,
+#                                min_child_weight=2,
+#                                subsample = 1)
 
 parametersGrid <-  expand.grid(eta = 0.1, 
                                colsample_bytree=c(0.5,0.7),
-                               max_depth=c(3,6),
-                               nrounds=100,
+                               max_depth=c(3,6,9),
+                               nrounds=150,
                                gamma=1,
                                min_child_weight=2,
                                subsample = 1)
@@ -59,3 +67,7 @@ modelxgboost
 predictions<-predict(modelxgboost,testDF)
 t<-table(predictions=predictions,actual=testDF$label)
 acc <- (t[1,1] + t[2,2] + t[3,3])/(sum(t))
+
+
+plot(modelxgboost)
+
