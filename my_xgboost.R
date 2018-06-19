@@ -37,22 +37,22 @@ ControlParamteres <- trainControl(method = "repeatedcv",
                                   repeats=5,
                                   savePredictions = TRUE,
                                   classProbs = TRUE)
-# best parameters
-# parametersGrid <-  expand.grid(eta = 0.1, 
-#                                colsample_bytree=c(0.5,0.7),
-#                                max_depth=c(20),
-#                                nrounds=200,
-#                                gamma=1,
-#                                min_child_weight=2,
-#                                subsample = 1)
-
-parametersGrid <-  expand.grid(eta = 0.1, 
+# best parameters - 76.1% acc
+parametersGrid <-  expand.grid(eta = 0.1,
                                colsample_bytree=c(0.5,0.7),
                                max_depth=c(3,6,9),
                                nrounds=150,
                                gamma=1,
                                min_child_weight=2,
                                subsample = 1)
+
+# parametersGrid <-  expand.grid(eta = 0.1, 
+#                                colsample_bytree=c(0.5,0.7),
+#                                max_depth=c(3,6,9),
+#                                nrounds=150,
+#                                gamma=1,
+#                                min_child_weight=2,
+#                                subsample = 1)
 
 parametersGrid
 
