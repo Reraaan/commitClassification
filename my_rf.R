@@ -18,6 +18,8 @@ pathRead2 <- "C:/Users/markos/Desktop/Markos Viggiato/DCC - Mestrado/Disciplinas
 mydata2 <- readxl::read_xlsx(pathRead2)
 
 mydata2<- mydata2[-(1:3)]
+#mydata2<- mydata2[-(3)]
+
 #mydata <- mydata[complete.cases(mydata),]
 #mydata[1:nrow(mydata),2:ncol(mydata)] <- as.numeric(as.matrix(mydata[1:nrow(mydata),2:ncol(mydata)]))
 mydata2 <- as.data.frame(mydata2)
@@ -41,13 +43,13 @@ ControlParamteres <- trainControl(method = "repeatedcv",
 #mtry <- sqrt(ncol(mydata2)-1)
 #mytunegrid <- expand.grid(mtry=4)
 
-tunegrid <- expand.grid(mtry=c(1:15))
+#tunegrid <- expand.grid(mtry=c(1:15))
 
 rf_model<-train(label~.,
                 data=trainDF,
                 method="rf",
-                trControl= ControlParamteres,
-                tunegrid=mytunegrid)
+                trControl= ControlParamteres)
+                #tunegrid=mytunegrid)
 
 print(rf_model)
 print(rf_model$finalModel)
